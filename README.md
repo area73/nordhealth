@@ -8,18 +8,14 @@ Please use the Provet Cloud Design System ([https://provetcloud.design/]) approp
 
 Read https://provetcloud.design/web-components/#installation-1 to learn how to use the Provet components in Vue. If possible, use TypeScript; however, JavaScript is also fine.
 
-## Constrains
+## Decision constrains
 
-- Use Nuxt3
-- Use Typescript
-- disable SSR (build a client-side only)
-  In the `nuxt.config.ts` file, we will disable server-side rendering:
+- **Use Nuxt3 / Vue3**
+  Since we're tasked with building a client-side only application, I don't see a need for a Nuxt3 application—its main advantage is enabling server-side rendering. Moreover, using Nuxt3 would add unnecessary complexity, so I've decided to stick with Vue 3 to keep things simple.
 
-```js
-export default defineNuxtConfig({
-  ssr: false, // Disable server-side rendering for client-side only application
-});
-```
+- **Use Typescript**
+
+  Using a robust type system can make our code more resilient to changes. Since the Provet Cloud Design System's Vue 3 components already come with predefined types that we plan to use, I believe adopting TypeScript is a smart choice—the benefits of strong typing outweigh the added complexity.
 
 - Use Provet Cloud Design System (https://provetcloud.design/)
 
@@ -30,47 +26,60 @@ export default defineNuxtConfig({
 
 ---
 
-## How to run the project
+## Recommended IDE Setup
 
-### Nuxt Minimal Starter
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+## Type Support for `.vue` Imports in TS
 
-### Setup
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
-Make sure to install dependencies:
+## Customize configuration
 
-```bash
-# npm
+See [Vite Configuration Reference](https://vite.dev/config/).
+
+## Project Setup
+
+```sh
 npm install
 ```
 
-### Development Server
+### Compile and Hot-Reload for Development
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
+```sh
 npm run dev
-
 ```
 
-### Production
+### Type-Check, Compile and Minify for Production
 
-Build the application for production:
-
-```bash
-# npm
+```sh
 npm run build
-
 ```
 
-Locally preview production build:
+### Run Unit Tests with [Vitest](https://vitest.dev/)
 
-```bash
-# npm
-npm run preview
-
+```sh
+npm run test:unit
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+
+```sh
+npm run test:e2e:dev
+```
+
+This runs the end-to-end tests against the Vite development server.
+It is much faster than the production build.
+
+But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+
+```sh
+npm run build
+npm run test:e2e
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
