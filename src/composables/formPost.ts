@@ -23,7 +23,7 @@ export function usePostForm() {
         throw new Error(`HTTP error! Status: ${res.status}`)
       }
 
-      response.value = await res.json()``
+      response.value = await res.json()
     } catch (err) {
       if (err instanceof Error) {
         error.value = err.message
