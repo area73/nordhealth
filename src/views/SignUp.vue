@@ -27,8 +27,10 @@
 import { ref, reactive } from 'vue'
 
 import { useFormValidator, type FormDataForm } from '@/composables/formValidator'
+import { useFormPost } from '@/composables/formPost'
 
 const { validate, hasErrors } = useFormValidator()
+const { postFormData, isLoading, error, response } = useFormPost()
 
 const formData = reactive<FormDataForm>({
   email: {
@@ -54,13 +56,20 @@ const toggleVisibility = () => {
   hidePassword.value = !hidePassword.value
 }
 
-function onSubmit() {
+async function onSubmit() {
   Object.assign(formData, validate(formData))
 
   if (hasErrors(formData)) {
     console.log(formData)
   } else {
-    console.log('good to go')
+    console.log('1', isLoading.value)
+    await postFormData('https://your-api-endpoint.com/submit', formData)
+
+    // Log or handle the response as needed
+    console.log('2', response.value)
+    console.log('3', error.value)
+    console.log('4', isLoading.value)
+    console.log('5', 'good to go')
   }
 }
 </script>

@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import type { FormDataForm } from './formValidator'
 
-export function usePostForm() {
+export function useFormPost() {
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   const response = ref(null)
