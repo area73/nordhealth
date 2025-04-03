@@ -4,6 +4,9 @@ import router from './router'
 import '@provetcloud/css'
 import '@provetcloud/web-components'
 
+if (process.env.NODE_ENV === 'development') {
+  import('./mocks/browser').then(({ worker }) => worker.start())
+}
 const app = createApp(App)
 
 app.use(router)

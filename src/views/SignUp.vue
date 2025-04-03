@@ -63,13 +63,12 @@ async function onSubmit() {
     console.log(formData)
   } else {
     console.log('1', isLoading.value)
-    await postFormData('https://your-api-endpoint.com/submit', formData)
+    await postFormData('/api/user-signup', formData)
 
     // Log or handle the response as needed
-    console.log('2', response.value)
-    console.log('3', error.value)
-    console.log('4', isLoading.value)
-    console.log('5', 'good to go')
+    console.log('response: ', response.value)
+    console.log('error: ', error.value)
+    console.log('isLoading: ', isLoading.value)
   }
 }
 </script>
