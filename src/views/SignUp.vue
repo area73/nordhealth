@@ -20,8 +20,8 @@
  * In this case I wanted to do it more Vue 3 style and stick to the way Vue handles and validate
  * forms, and because it look like the web components accepts v-model I can use this approach.
  *
- * In Vue 3 they recomend to use the reactive binding "v-model" and use the directive
- *  @submit.prevent to avoid default behaviour and do the validation logic in a method
+ * In Vue 3 they recommend to use the reactive binding "v-model" and use the directive
+ *  @submit.prevent to avoid default behavior and do the validation logic in a method
  *
 **/
 import { ref, reactive } from 'vue'
@@ -62,7 +62,6 @@ async function onSubmit() {
   if (hasErrors(formData)) {
     console.log(formData)
   } else {
-    console.log('1', isLoading.value)
     await postFormData('/api/user-signup', formData)
 
     // Log or handle the response as needed
@@ -73,54 +72,76 @@ async function onSubmit() {
 }
 </script>
 <template>
-  <div class="signup">
-    <h1>This is The sign up page</h1>
-
-    <form id="signup" @submit.prevent="onSubmit" action="/success">
-      <provet-stack>
-        <provet-input
-          v-model="formData.email!.value"
-          label="email"
-          name="email"
-          type="email"
-          placeholder="business email"
-          required="true"
-          :error="formData.email?.error"
-        >
-        </provet-input>
-        <section class="n-stack-horizontal n-gap-xs">
+  <div class="signup n-grid-2 n-padding-xxl">
+    <div>
+      <img src="../assets/dog.webp" alt="" aria-hidden="true" />
+    </div>
+    <div class="n-padding-xl n-border">
+      <form id="signup" @submit.prevent="onSubmit" action="/success">
+        <provet-stack gap="xl">
           <provet-input
-            v-model="formData.password!.value"
-            label="password"
-            name="password"
-            :type="hidePassword ? 'password' : 'text'"
-            placeholder="minimum 8 characters"
+            v-model="formData.email!.value"
+            label="email"
+            name="email"
+            type="email"
+            placeholder="business email"
             required="true"
-            :error="formData.password?.error"
           >
+            <span slot="error" v-if="formData.email?.error" class="error-tag">{{
+              formData.email?.error
+            }}</span>
           </provet-input>
-          <provet-button href="#" variant="primary" @click="toggleVisibility">
-            <!--
+          <section class="n-stack-horizontal-s n-gap-xs">
+            <provet-input
+              v-model="formData.password!.value"
+              label="password"
+              name="password"
+              :type="hidePassword ? 'password' : 'text'"
+              placeholder="minimum 8 characters"
+              required="true"
+            >
+              <span slot="error" v-if="formData.password?.error" class="error-tag">{{
+                formData.password?.error
+              }}</span>
+            </provet-input>
+            <span class="vertical-gap">
+              <provet-button href="#" variant="primary" @click="toggleVisibility" class="btn">
+                <!--
             Note: The initial idea was to use name as dynamic ie :name="hidePassword ? 'interface-edit-on':'interface-edit-off'"
             but it turns out that the WC is not reactive.
             I found a workaround less elegant but effective
             -->
-            <provet-icon slot="start" name="interface-edit-off" v-if="hidePassword"></provet-icon>
-            <provet-icon slot="start" name="interface-edit-on" v-if="!hidePassword"></provet-icon>
-          </provet-button>
-        </section>
-        <provet-checkbox
-          v-model="formData.allowCommunication"
-          name="allowCommunication"
-          value="0"
-          label="receive occasional product updates and announcements."
-          error=""
-        ></provet-checkbox>
 
-        <provet-button variant="primary" type="submit">Submit</provet-button>
-      </provet-stack>
-    </form>
+                <provet-icon
+                  slot="start"
+                  name="interface-edit-off"
+                  v-if="hidePassword"
+                ></provet-icon>
+                <provet-icon
+                  slot="start"
+                  name="interface-edit-on"
+                  v-if="!hidePassword"
+                ></provet-icon>
+              </provet-button>
+            </span>
+          </section>
+          <provet-checkbox
+            v-model="formData.allowCommunication"
+            name="allowCommunication"
+            value="0"
+            label="receive occasional product updates and announcements."
+            error=""
+          ></provet-checkbox>
+
+          <provet-button variant="primary" type="submit">Submit</provet-button>
+        </provet-stack>
+      </form>
+    </div>
   </div>
 </template>
 
-<style></style>
+<style>
+.vertical-gap {
+  margin-top: 28px;
+}
+</style>
