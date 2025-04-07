@@ -73,10 +73,13 @@ async function onSubmit() {
 </script>
 <template>
   <div class="signup n-grid-2 n-padding-xxl">
-    <div>
-      <img src="../assets/dog.webp" alt="" aria-hidden="true" />
+    <div class="product">
+      <div class="n-typescale-xl">
+        Condrovet Force HA <provet-badge variant="highlight">new product</provet-badge>
+      </div>
+      <img src="../assets/dog.webp" alt="" aria-hidden="true" class="image-product" />
     </div>
-    <div class="n-padding-xl n-border">
+    <div class="n-padding-xl n-border subscription-panel">
       <form id="signup" @submit.prevent="onSubmit" action="/success">
         <provet-stack gap="xl">
           <provet-input
@@ -141,7 +144,32 @@ async function onSubmit() {
 </template>
 
 <style>
+.signup {
+  border-radius: 0 0 4px 4px;
+}
+.product {
+  text-align: center;
+}
+.image-product {
+  margin: 16px 16px 0 16px;
+  width: 100%;
+  max-width: 283px;
+}
+
+.subscription-panel {
+  min-width: 293px;
+}
+
 .vertical-gap {
   margin-top: 28px;
+}
+
+@media (max-width: 600px) {
+  .image-product {
+    display: none;
+  }
+  .signup {
+    display: block !important;
+  }
 }
 </style>

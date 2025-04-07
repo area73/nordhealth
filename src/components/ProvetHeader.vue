@@ -14,16 +14,18 @@
   font-weight: var(--_n-button-font-weight);
   line-height: var(--n-line-height-form);
 }
+
+.header {
+  border-radius: 4px 4px 0 0;
+}
 </style>
 <template>
-  <section class="n-grid-6 n-color-accent n-color-text-on-accent n-padding-xl">
+  <section class="n-grid-4 n-color-accent n-color-text-on-accent n-padding-xl header">
     <div class="n-padding-bs-s">
       <a href="/"><img src="../assets/logo.svg" alt="home" /></a>
     </div>
-    <div></div>
-    <div class="menu-item">menu item</div>
-    <div class="menu-item">menu item</div>
-    <div class="menu-item">menu item</div>
-    <div class="menu-item">menu item</div>
+    <div class="menu-item">Hyaloral</div>
+    <div class="menu-item">Hyalo Plus</div>
+    <div class="menu-item">Condrovet Force HA</div>
   </section>
 </template>
