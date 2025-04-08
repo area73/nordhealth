@@ -127,6 +127,7 @@ async function onSubmit() {
             <span class="vertical-gap">
               <provet-button
                 href="#"
+                id="toggle-password"
                 variant="primary"
                 @click="toggleVisibility"
                 class="btn"
@@ -160,6 +161,7 @@ async function onSubmit() {
           ></provet-checkbox>
 
           <provet-button
+            name="submit"
             variant="primary"
             type="submit"
             :disabled="isLoading"
