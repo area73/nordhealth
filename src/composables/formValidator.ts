@@ -1,4 +1,4 @@
-export type FormDataForm = {
+export interface FormDataForm {
   email?: {
     value: string
     error: string
@@ -7,38 +7,46 @@ export type FormDataForm = {
     value: string
     error: string
   }
-} & Record<string, unknown>
+  [key: string]: unknown
+}
 
-const passwordCheck = (password: string) => {
+/**
+ * Validate a password by checking if it is empty.
+ * @param password - password to check
+ * @returns - object with the password value and an error message if it is empty
+ */
+const passwordCheck = (password: string): { value: string; error: string } => {
   const passwordForm = {
     value: password,
     error: '',
   }
+
+  // Check if password is empty
   if (password === '') {
     passwordForm.error = 'Password cannot be empty'
   }
+
   return passwordForm
 }
-const addEmailCheck = (email: string) => {
-  const emailForm = {
+const validateEmail = (email: string) => {
+  const emailValidationResult = {
     value: email,
     error: '',
   }
-  // regular expression to check email
-  const re =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  const isValid = re.test(String(email).toLowerCase())
-  if (!isValid) {
-    emailForm.error = email === '' ? 'Email cannot be empty' : 'Email not valid'
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  const isValidEmail = emailRegex.test(email.toLowerCase())
+  if (!isValidEmail) {
+    emailValidationResult.error = email === '' ? 'Email cannot be empty' : 'Invalid email format'
   }
-  return emailForm
+
+  return emailValidationResult
 }
 
 export const useFormValidator = () => {
   const validate = (form: FormDataForm) => {
     const formWithErrors: FormDataForm = {}
     if (form.email) {
-      formWithErrors.email = addEmailCheck(form.email.value)
+      formWithErrors.email = validateEmail(form.email.value)
     }
     if (form.password) {
       formWithErrors.password = passwordCheck(form.password.value)
