@@ -18,10 +18,17 @@
 .header {
   border-radius: 4px 4px 0 0;
 }
+
+@media (max-width: 768px) {
+  .header-logo {
+    width: 25px;
+    overflow: hidden;
+  }
+}
 </style>
 <template>
   <section class="n-grid-4 n-color-accent n-color-text-on-accent n-padding-xl header">
-    <div class="n-padding-bs-s">
+    <div class="n-padding-bs-s header-logo">
       <a href="/"><img src="../assets/logo.svg" alt="home" /></a>
     </div>
     <div class="menu-item">Hyaloral</div>

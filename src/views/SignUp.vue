@@ -28,6 +28,9 @@ import { ref, reactive } from 'vue'
 
 import { useFormValidator, type FormDataForm } from '@/composables/formValidator'
 import { useFormPost } from '@/composables/formPost'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const { validate, hasErrors } = useFormValidator()
 const { postFormData, isLoading, error, response } = useFormPost()
@@ -63,15 +66,27 @@ async function onSubmit() {
     console.log(formData)
   } else {
     await postFormData('/api/user-signup', formData)
-
-    // Log or handle the response as needed
-    console.log('response: ', response.value)
-    console.log('error: ', error.value)
-    console.log('isLoading: ', isLoading.value)
+    if (response.value) {
+      // Handle the response if needed
+      console.log('Form submitted successfully:', response.value)
+      router.push('/success')
+    }
   }
 }
 </script>
 <template>
+  <provet-notification-group v-if="error">
+    <provet-notification>
+      <span slot="icon"></span>
+      <provet-banner variant="danger">
+        <strong>We’re experiencing an incident. Please try again</strong>
+        <div>{{ error }}</div>
+      </provet-banner>
+    </provet-notification>
+  </provet-notification-group>
+  <div class="loading-spinner" v-if="isLoading">
+    <provet-spinner size="xxl"></provet-spinner>
+  </div>
   <div class="signup n-grid-2 n-padding-xxl">
     <div class="product">
       <div class="n-typescale-xl">
@@ -80,7 +95,7 @@ async function onSubmit() {
       <img src="../assets/dog.webp" alt="" aria-hidden="true" class="image-product" />
     </div>
     <div class="n-padding-xl n-border subscription-panel">
-      <form id="signup" @submit.prevent="onSubmit" action="/success">
+      <form id="signup" @submit.prevent="onSubmit">
         <provet-stack gap="xl">
           <provet-input
             v-model="formData.email!.value"
@@ -89,6 +104,7 @@ async function onSubmit() {
             type="email"
             placeholder="business email"
             required="true"
+            :disabled="isLoading"
           >
             <span slot="error" v-if="formData.email?.error" class="error-tag">{{
               formData.email?.error
@@ -102,13 +118,20 @@ async function onSubmit() {
               :type="hidePassword ? 'password' : 'text'"
               placeholder="minimum 8 characters"
               required="true"
+              :disabled="isLoading"
             >
               <span slot="error" v-if="formData.password?.error" class="error-tag">{{
                 formData.password?.error
               }}</span>
             </provet-input>
             <span class="vertical-gap">
-              <provet-button href="#" variant="primary" @click="toggleVisibility" class="btn">
+              <provet-button
+                href="#"
+                variant="primary"
+                @click="toggleVisibility"
+                class="btn"
+                aria-describedby="tooltip-hide"
+              >
                 <!--
             Note: The initial idea was to use name as dynamic ie :name="hidePassword ? 'interface-edit-on':'interface-edit-off'"
             but it turns out that the WC is not reactive.
@@ -136,22 +159,51 @@ async function onSubmit() {
             error=""
           ></provet-checkbox>
 
-          <provet-button variant="primary" type="submit">Submit</provet-button>
+          <provet-button
+            variant="primary"
+            type="submit"
+            :disabled="isLoading"
+            aria-describedby="tooltip-submit"
+            >Submit</provet-button
+          >
         </provet-stack>
+        <provet-tooltip id="tooltip-hide" style="--n-tooltip-max-size: 200px">
+          Show / hide password
+        </provet-tooltip>
+        <provet-tooltip
+          delay="0"
+          position="block-end"
+          id="tooltip-submit"
+          style="--n-tooltip-max-size: 300px"
+        >
+          <div>
+            <p>DEV HINT:</p>
+            <p>if you use 123 as a password you will get an error message (401)</p>
+            <p>if you use 456 as a password you will get a network error</p>
+          </div>
+        </provet-tooltip>
       </form>
     </div>
   </div>
 </template>
 
 <style>
+.loading-spinner {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
 .signup {
   border-radius: 0 0 4px 4px;
+  border: 1px solid var(--n-color-border);
 }
 .product {
   text-align: center;
 }
 .image-product {
-  margin: 16px 16px 0 16px;
+  margin: 20px 16px 0 16px;
   width: 100%;
   max-width: 283px;
 }
@@ -164,12 +216,16 @@ async function onSubmit() {
   margin-top: 28px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .product {
+    padding-bottom: 16px;
+  }
   .image-product {
     display: none;
   }
   .signup {
     display: block !important;
+    padding: var(--n-space-m) !important;
   }
 }
 </style>
