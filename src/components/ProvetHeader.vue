@@ -5,9 +5,9 @@
 }
 
 .menu-item {
-  padding: 8px;
-  border-radius: 4px;
   text-align: center;
+  padding: var(--n-space-s);
+  border-radius: var(--n-border-radius);
   font-family: var(--n-font-family);
   font-feature-settings: var(--n-font-features);
   font-size: var(--_n-button-font-size);
@@ -16,7 +16,7 @@
 }
 
 .header {
-  border-radius: 4px 4px 0 0;
+  border-radius: var(--n-border-radius) var(--n-border-radius) 0 0;
 }
 
 @media (max-width: 768px) {

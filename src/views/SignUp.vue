@@ -196,7 +196,7 @@ async function onSubmit() {
 }
 
 .signup {
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 var(--n-border-radius) var(--n-border-radius);
   border: 1px solid var(--n-color-border);
 }
 .product {
