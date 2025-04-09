@@ -23,7 +23,7 @@ Read https://provetcloud.design/web-components/#installation-1 to learn how to u
 
 - Create a signup page with description above
 - create a success page
-- Add function / e2e test
+- Add functional / e2e test
 
 ---
 
