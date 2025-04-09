@@ -5,9 +5,9 @@ import '@provetcloud/css'
 import '@provetcloud/web-components'
 import './assets/main.css'
 
-if (process.env.NODE_ENV === 'development') {
-  import('./mocks/browser').then(({ worker }) => worker.start())
-}
+// TODO: we could limit this only to development mode but right now I live it as it is to run the e2e test
+import('./mocks/browser').then(({ worker }) => worker.start())
+
 const app = createApp(App)
 
 app.use(router)

@@ -43,7 +43,6 @@ describe('useFormPost', () => {
   })
 
   it('should handle a failed form submission (non-2xx status)', async () => {
-    const { postFormData, isLoading, error, response } = useFormPost()
     fetchMock.mockResolvedValueOnce({
       error: 'not allowed',
       status: 400,

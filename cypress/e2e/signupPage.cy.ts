@@ -14,7 +14,7 @@ describe('SignUp Page', () => {
     cy.get('provet-button').shadow().find('button[name="submit"]').as('submitButton')
   })
 
-  it.only('allows a user to type into the email, password, and interact with the checkbox', () => {
+  it('allows a user to type into the email, password, and interact with the checkbox', () => {
     cy.get('@emailInput').should('exist')
     cy.get('@emailInput').clear()
     cy.get('@emailInput').type('testuser@example.com')
@@ -36,11 +36,43 @@ describe('SignUp Page', () => {
     cy.get('@passwordInput').clear()
 
     // Submit the form.
-    // cy.get('@submitButton').click()
+    cy.get('@submitButton').click()
 
     // Assert that the error messages are shown.
     // Adjust these error messages to match those from your SignUp.vue validation logic.
-    cy.contains('Password must be at least 6 characters').should('be.visible')
-    cy.contains('You must accept the terms and conditions').should('be.visible')
+    cy.contains('Email cannot be empty').should('be.visible')
+    cy.contains('Password cannot be empty').should('be.visible')
+  })
+
+  it('shows error messages from the server', () => {
+    // (Optional) You can also set up the form state here (or rely on the actions in the previous test).
+    // In this example, we simulate an invalid form submission:
+    cy.get('@emailInput').clear()
+    cy.get('@emailInput').type('testuser@example.com')
+    cy.get('@passwordInput').clear()
+    cy.get('@passwordInput').type('123')
+
+    // Submit the form.
+    cy.get('@submitButton').click()
+
+    // Assert that the error messages are shown.
+    // Adjust these error messages to match those from your SignUp.vue validation logic.
+    cy.contains('We’re experiencing an incident').should('be.visible')
+  })
+
+  it('shows succes page after form submit', () => {
+    // (Optional) You can also set up the form state here (or rely on the actions in the previous test).
+    // In this example, we simulate an invalid form submission:
+    cy.get('@emailInput').clear()
+    cy.get('@emailInput').type('testuser@example.com')
+    cy.get('@passwordInput').clear()
+    cy.get('@passwordInput').type('abc')
+
+    // Submit the form.
+    cy.get('@submitButton').click()
+
+    // Assert that the error messages are shown.
+    // Adjust these error messages to match those from your SignUp.vue validation logic.
+    cy.contains('Your registration was successful').should('be.visible')
   })
 })
