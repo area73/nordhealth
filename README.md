@@ -11,6 +11,7 @@ Read https://provetcloud.design/web-components/#installation-1 to learn how to u
 ## Decision constrains
 
 - **Use Nuxt3 / Vue3**
+
   Since we're tasked with building a client-side only application, I don't see a need for a Nuxt3 application—its main advantage is enabling server-side rendering. Moreover, using Nuxt3 would add unnecessary complexity, so I've decided to stick with Vue 3 to keep things simple.
 
 - **Use Typescript**
